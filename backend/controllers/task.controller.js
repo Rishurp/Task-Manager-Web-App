@@ -1,24 +1,62 @@
 const { taskService } = require("../services");
 
 getTask = async (req, res) => {
-  let response = await taskService.getTask();
-  res.status(200).send(response);
+  try{
+    let response = await taskService.getTask();
+    res.status(200).send(response);
+  }catch(error)
+  {
+    return error;
+  }
 };
 addTask = async (req, res) => {
-  const title = req.body.title;
-  const description = req.body.description;
-  const createdOn = new Date(`${req.body.createdOn}`);
+  // const title = req.body.title;
+  // const description = req.body.description;
+  try
+  {
+    const createdOn = new Date(`${req.body.createdOn}`);
+    let response = await taskService.addTask(req.body);
     console.log(createdOn);
-  const deadline = new Date(`${req.body.deadline}`);
-  let response = await taskService.addTask({
-    title: title,
-    description: description,
-    createdOn: createdOn,
-    deadline: deadline,
-  });
-  res.status(201).send(response);
+    const deadline = new Date(`${req.body.deadline}`);
+    res.status(201).send(response);
+  }catch(error)
+  {
+    return error;
+  }
+};
+
+updateTask = async (req, res) => {
+  try{
+    const id = req.params.id;
+    const payload = req.body;
+    const response = await taskService.updateTask(id, payload);
+    res.status(200).send({ msg: "Updated successfully" });
+  }
+  catch(error)
+  {
+    return error;
+  }
+};
+
+deleteTask = async (req, res) => {
+  try{
+    const id = req.params.id;
+    const response = await taskService.deleteTask(id);
+    res.status(200).send({ msg: "deleted successfully" });
+  }catch(error)
+  {
+    return error;
+  }
 };
 module.exports = {
   getTask,
   addTask,
+  updateTask,
+  deleteTask,
 };
+// {
+//   title: title,
+//   description: description,
+//   createdOn: createdOn,
+//   deadline: deadline,
+// }

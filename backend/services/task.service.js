@@ -9,7 +9,19 @@ const getTask= async() => {
     return response;
 }
 
+const updateTask = async (id,updateData) => {
+const task = await Task.findByIdAndUpdate(id,updateData)
+return task;
+}
+
+const deleteTask = async (id) => {
+    const task = await Task.findByIdAndDelete(id);
+    return task;
+}
+
 module.exports = {
     addTask,
-    getTask
+    getTask,
+    updateTask,
+    deleteTask
 }
