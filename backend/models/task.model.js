@@ -17,7 +17,8 @@ const taskSchema = mongoose.Schema({
     },
     linkedFile : {
         type : Buffer,
-        required : false
+        required : false,
+        contentType : String
     },
     createdOn : {
         type : Date,

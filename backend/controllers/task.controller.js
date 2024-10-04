@@ -10,15 +10,17 @@ getTask = async (req, res) => {
   }
 };
 addTask = async (req, res) => {
-  // const title = req.body.title;
-  // const description = req.body.description;
   try
   {
+    const title = req.body.title;
+    const description = req.body.description;
     const createdOn = new Date(`${req.body.createdOn}`);
-    let response = await taskService.addTask(req.body);
-    console.log(createdOn);
     const deadline = new Date(`${req.body.deadline}`);
-    res.status(201).send(response);
+    const linkedFile = req.File ? {data : req.file.buffer, contentType : req.file.mimetype} : null;
+
+    let response = await taskService.addTask({ title : title , description : description, linkedFile : linkedFile, createdOn : createdOn , deadline : deadline});
+    console.log(createdOn);
+    res.status(201).send(response); 
   }catch(error)
   {
     return error;
