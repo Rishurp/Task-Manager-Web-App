@@ -2,20 +2,23 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const routes = require("./routes")
-
 const app = express();
+const dotenv = require("dotenv")
 const PORT = 8082;
+
+dotenv.config()
 
 
 mongoose
 .connect(
-  "mongodb+srv://rishupandey3102:YB0mSdZ5cT5SdZlu@cluster0.zvpjh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+  process.env.MONGODB_URL
 )
 .then(() => console.log("DB is connected"))
 .catch((error) =>
   console.log("We got an error while connecting to db", error)
 );
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/v1",routes)

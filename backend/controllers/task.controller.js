@@ -1,52 +1,51 @@
 const { taskService } = require("../services");
 
 getTask = async (req, res) => {
-  try{
+  try {
     let response = await taskService.getTask();
     res.status(200).send(response);
-  }catch(error)
-  {
+  } catch (error) {
     return error;
   }
 };
 addTask = async (req, res) => {
-  try
-  {
+  try {
     const title = req.body.title;
     const description = req.body.description;
-    const createdOn = new Date(`${req.body.createdOn}`);
     const deadline = new Date(`${req.body.deadline}`);
-    const linkedFile = req.File ? {data : req.file.buffer, contentType : req.file.mimetype} : null;
+    const linkedFile = req.file
+      ? { data: req.file.buffer, contentType: req.file.mimetype }
+      : null;
 
-    let response = await taskService.addTask({ title : title , description : description, linkedFile : linkedFile, createdOn : createdOn , deadline : deadline});
-    console.log(createdOn);
-    res.status(201).send(response); 
-  }catch(error)
-  {
+    let response = await taskService.addTask({
+      title: title,
+      description: description,
+      linkedFile: linkedFile,
+      deadline: deadline,
+    });
+    res.status(201).send(response);
+  } catch (error) {
     return error;
   }
 };
 
 updateTask = async (req, res) => {
-  try{
+  try {
     const id = req.params.id;
     const payload = req.body;
     const response = await taskService.updateTask(id, payload);
     res.status(200).send({ msg: "Updated successfully" });
-  }
-  catch(error)
-  {
+  } catch (error) {
     return error;
   }
 };
 
 deleteTask = async (req, res) => {
-  try{
+  try {
     const id = req.params.id;
     const response = await taskService.deleteTask(id);
     res.status(200).send({ msg: "deleted successfully" });
-  }catch(error)
-  {
+  } catch (error) {
     return error;
   }
 };
