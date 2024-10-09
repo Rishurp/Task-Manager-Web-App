@@ -1,41 +1,131 @@
-import DownloadIcon from "@mui/icons-material/Download";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 
-const TaskTable = () => {
+import * as React from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  IconButton,
+  Tooltip,
+  Chip,
+  Paper,
+} from "@mui/material";
+import { Edit, Download, Delete, CheckCircle } from "@mui/icons-material";
+
+const TaskTable = ({
+  tasks,
+  onMarkAsDone,
+  onDownloadFile,
+  onEdit,
+  onDelete,
+}) => {
+  const formatDate = (date) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    return new Date(date).toLocaleDateString(undefined, options);
+  };
+
+  const getStatus = (deadline, status) => {
+    const now = new Date();
+    const deadlineDate = new Date(deadline);
+
+    if (status === "DONE") {
+      return now < deadlineDate ? "Achieved" : "In Progress";
+    } else {
+      return now > deadlineDate ? "Failed" : "In Progress";
+    }
+  };
+
+
+  console.log(tasks)
+  
   return (
-    <div className=" ">
-      <div className="mx-14 my-4 rounded-md">
-        <table className="table-auto border-collapse w-full border text-left">
-          <thead>
-            <tr>
-              <th className="px-4 py-4">Title</th>
-              <th className="px-4 py-4">Description</th>
-              <th className="px-4 py-4">Deadline</th>
-              <th className="px-4 py-4">Status</th>
-              <th className="px-4 py-4">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="border">
-              <td className="px-4 py-4 ">React Basics</td>
-              <td className="px-4 py-4 ">Refer to document for more </td>
-              <td className="px-4 py-4 ">19/08/2024</td>
-              <td className="px-4 py-4 ">
-                <span className="bg-green-500 rounded-2xl text-white px-3 py-2">
-                  DONE
-                </span>
-              </td>
-              <td>
-                <DownloadIcon style={{ color: "blue", marginRight: "1rem" }} />
-                <EditIcon style={{ color: "purple", marginRight: "1rem" }} />
-                <DeleteIcon style={{ color: "red" }} />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <TableContainer component={Paper} sx={{ marginTop: "22px" }}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell sx={{ fontWeight: "bold" }}>Title</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Description</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Deadline</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Status</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Action</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {tasks.map((task) => (
+            
+            <TableRow key={task._id}>
+              <TableCell>
+                <Tooltip title={task.title}>
+                  <span
+                    style={{
+                      display: "block",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    {task.title} 
+                  </span>
+                </Tooltip>
+              </TableCell>
+              <TableCell sx={{ maxWidth: 250, overflow: "hidden" }}>
+                <Tooltip title={task.description}>
+                  <span
+                    style={{
+                      display: "block",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    {task.description}
+                  </span>
+                </Tooltip>
+              </TableCell>
+              <TableCell>
+                {formatDate(task.deadline)}
+                <br />
+                <code>{getStatus(task.deadline, task.status)}</code>
+              </TableCell>
+              <TableCell>
+                <Chip
+                  label={task.status}
+                  color={task.status === "DONE" ? "success" : "warning"}
+                />
+              </TableCell>
+              <TableCell>
+                {task.status === "TODO" && (
+                  <IconButton onClick={() => onMarkAsDone(task._id)}>
+                    <CheckCircle color="success" />
+                  </IconButton>
+                )}
+
+                {task.linkedFile && (
+                  <IconButton
+                    onClick={() =>
+                      onDownloadFile(
+                        new Uint8Array(task.linkedFile.data.data),
+                        task.linkedFile.contentType
+                      )
+                    }
+                  >
+                    <Download color="primary" />
+                  </IconButton>
+                )}
+                <IconButton onClick={() => onEdit(task)}>
+                  <Edit color="secondary" />
+                </IconButton>
+                <IconButton onClick={() => onDelete(task._id)}>
+                  <Delete color="error" />
+                </IconButton>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
