@@ -6,6 +6,7 @@ import TaskModal from "./TaskModal";
 import LoadingIndicator from "./LoadingIndicator";
 import { Fab } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import {config} from "../App"
 
 const TaskManager = () => {
   const [tasks, setTasks] = useState([]);
@@ -18,7 +19,7 @@ const TaskManager = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get("http://localhost:8082/v1/tasks");
+        const response = await axios.get(`${config.backendEndpoint}/v1/tasks`);
         setTasks(response.data);
       } catch (err) {
         console.error("Error fetching tasks:", err);
@@ -64,16 +65,16 @@ const TaskManager = () => {
 
     try {
       if (isEditing) {
-        await axios.patch(`http://localhost:8082/v1/tasks/${taskData._id}`, {
+        await axios.patch(`${config.backendEndpoint}/v1/tasks/${taskData._id}`, {
           title: taskData.title,
           description: taskData.description,
           deadline: taskData.deadline,
         });
       } else {
         console.log("formData in handleSave", formData);
-        await axios.post("http://localhost:8082/v1/tasks", formData);
+        await axios.post(`${config.backendEndpoint}/v1/tasks`, formData);
       }
-      const response = await axios.get("http://localhost:8082/v1/tasks");
+      const response = await axios.get(`${config.backendEndpoint}/v1/tasks`);
       setTasks(response.data);
       handleClose();
     } catch (err) {
@@ -92,10 +93,10 @@ const TaskManager = () => {
 
   const handleMarkAsDone = async (taskId) => {
     try {
-      await axios.patch(`http://localhost:8082/v1/tasks/${taskId}`, {
+      await axios.patch(`${config.backendEndpoint}/v1/tasks/${taskId}`, {
         status: "DONE",
       });
-      const response = await axios.get("http://localhost:8082/v1/tasks");
+      const response = await axios.get(`${config.backendEndpoint}/v1/tasks`);
       setTasks(response.data);
     } catch (err) {
       console.error("Error updating task:", err);
@@ -117,8 +118,8 @@ const TaskManager = () => {
   const handleDelete = async (taskId) => {
     if (window.confirm("Are you sure you want to delete this task?")) {
       try {
-        await axios.delete(`http://localhost:8082/v1/tasks/${taskId}`);
-        const response = await axios.get("http://localhost:8082/v1/tasks");
+        await axios.delete(`${config.backendEndpoint}/v1/tasks/${taskId}`);
+        const response = await axios.get(`${config.backendEndpoint}/v1/tasks`);
         setTasks(response.data);
       } catch (err) {
         console.error("Error deleting task:", err);

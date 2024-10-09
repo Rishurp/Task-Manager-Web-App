@@ -1,6 +1,10 @@
 import Navbar from "./Components/Navbar";
 import TaskManager from "./Components/TaskManager";
 
+export const config = {
+  backendEndpoint :"https://task-manager-web-app-kigp.onrender.com"
+}
+
 function App() {
   return (
     <>
