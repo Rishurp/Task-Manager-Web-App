@@ -1,4 +1,5 @@
 
+
 # Task Manager Web App
 
 The **Task Manager Web App** is a full-stack application that allows users to manage tasks. It includes backend APIs to handle task creation, updating, deletion, and retrieval, along with a frontend for interacting with tasks via a user-friendly interface. This project also supports file uploads, allowing users to upload and download PDF files related to tasks.
@@ -12,6 +13,7 @@ The **Task Manager Web App** is a full-stack application that allows users to ma
 - [API Endpoints](#api-endpoints)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Screenshots](#screenshots)
 - [Deployed Link](#deployed-link)
 - [License](#license)
 
@@ -31,7 +33,7 @@ The **Task Manager Web App** is a full-stack application that allows users to ma
 - **Task Management**: Create, update, delete, and fetch tasks.
 - **File Upload**: Users can upload PDF files related to tasks, which can then be downloaded.
 - **Frontend UI**: A clean interface built with Material-UI and Axios to handle API requests.
-  
+
 ---
 
 ## Backend
@@ -53,7 +55,6 @@ The backend is built using **Node.js** and **Express.js**, with **MongoDB** as t
 
 - **MONGODB_URL**: The connection string for MongoDB is stored in the `.env` file.
 
-
 ---
 
 ## Frontend
@@ -68,7 +69,6 @@ The frontend is developed using **React.js** with **Material-UI** for creating a
 - `axios`: Used to send HTTP requests to the backend.
 - `vite`: For building and serving the frontend code.
 - `tailwindcss`: Used for additional styling.
-
 
 ---
 
@@ -106,7 +106,7 @@ The frontend is developed using **React.js** with **Material-UI** for creating a
 
 ### PDF Upload with Multer
 - **Description**: Users can upload PDFs related to tasks, and they can be downloaded later.
-  
+
 ---
 
 ## Installation
@@ -169,6 +169,19 @@ The app will now be running locally at `http://localhost:3000` for the frontend 
 3. **Update tasks**: Click on a task to update its details.
 4. **Delete tasks**: Remove tasks you no longer need.
 5. **Upload PDFs**: Attach a PDF to a task for download later.
+
+---
+
+## Screenshots
+
+Here's a preview of the Task Manager Web App:
+
+![Screenshot (344)](https://github.com/user-attachments/assets/30461e5d-6d84-4d9f-b85d-6e1419e37715)
+![Screenshot (354)](https://github.com/user-attachments/assets/448bbb49-9fd3-4d09-8221-c73492fce485)
+![Screenshot (355)](https://github.com/user-attachments/assets/35ae5365-1d9e-42b6-800f-7eaa9b77f20e)
+![Screenshot (356)](https://github.com/user-attachments/assets/4145672b-1b0d-4f84-81ef-be868a8ab195)
+![Screenshot (357)](https://github.com/user-attachments/assets/d9f9ed4a-304d-47b4-8970-a25520e5a1f4)
+![Screenshot (358)](https://github.com/user-attachments/assets/5f7dcd47-5372-4b31-80ca-8b50cec579b4)
 
 ---
 
